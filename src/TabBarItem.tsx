@@ -209,6 +209,12 @@ export default class TabBarItem<T extends Route> extends React.Component<
 
     const badge = renderBadge ? renderBadge(scene) : null;
 
+    let itemStyle = {};
+    itemStyle = styles.itemCenter;
+    if (tabIndex === 0) itemStyle = styles.itemLeft;
+    else if (tabIndex === navigationState.routes.length - 1) {
+      itemStyle = styles.itemRight;
+    }
     return (
       <TouchableItem
         borderless
@@ -227,7 +233,7 @@ export default class TabBarItem<T extends Route> extends React.Component<
         onLongPress={onLongPress}
         style={tabContainerStyle}
       >
-        <View pointerEvents="none" style={[styles.item, tabStyle]}>
+        <View pointerEvents="none" style={[styles.item, itemStyle, tabStyle]}>
           {icon}
           {label}
           {badge != null ? <View style={styles.badge}>{badge}</View> : null}
@@ -247,10 +253,20 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
     minHeight: 48,
+  },
+  itemCenter: {
+    alignItems: 'center',
+    padding: 10,
+  },
+  itemLeft: {
+    alignItems: 'flex-start',
+    padding: 0,
+  },
+  itemRight: {
+    alignItems: 'flex-end',
+    padding: 0,
   },
   badge: {
     position: 'absolute',
